@@ -1,4 +1,4 @@
-def get_numbers_from_lines():
+def get_numbers_from_lines(lines):
     calibration_value = 0
     for line in lines:
         line.strip()
@@ -18,16 +18,17 @@ def get_written_and_numerical_digits_from_lines(lines):
     for line in lines:
         line = line.strip()
         written_digits = [digit for digit in unique_digits if digit in line]
-        indexes = [line.index(digit) for digit in written_digits]
         digits = []
+        indexes = []
         for digit in written_digits:
             index = [i for i in range(len(line)) if line.startswith(digit, i)]
-            for _ in range(len(index)):
+            for idx in index:
                 digits.append(unique_digits.index(digit) + 1)
-        for idx, character in enumerate(line):
+                indexes.append(idx)
+        for c_idx, character in enumerate(line):
             if character.isdigit():
                 digits.append(int(character))
-                indexes.append(idx)
+                indexes.append(c_idx)
         indexes, digits = zip(*sorted(zip(indexes, digits)))
         number = int(f'{digits[0]}{digits[-1]}')
         calibration_value += number
